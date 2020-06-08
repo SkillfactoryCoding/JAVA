@@ -1,0 +1,31 @@
+### send bad message
+
+POST localhost:8080/rest/message
+Content-Type: application/json
+
+{
+  "messageName": "CustomerMessage",
+  "businessKey": "1",
+  "resultEnabled": true,
+  "processVariables": {
+    "comment": {
+      "value": "Плохо"
+    }
+  }
+}
+
+### send good message
+
+POST localhost:8080/rest/message
+Content-Type: application/json
+
+{
+  "messageName": "CustomerMessage",
+  "businessKey": "1",
+  "resultEnabled": true,
+  "processVariables": {
+    "comment": {
+      "value": ""
+    }
+  }
+}
