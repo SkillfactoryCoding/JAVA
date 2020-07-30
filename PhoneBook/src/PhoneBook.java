@@ -123,7 +123,4 @@ public class PhoneBook {
             book.printPhoneBookNotesSortedByName();
         }
     }
-
-    private void findUserByNumber() {
-    }
 }
