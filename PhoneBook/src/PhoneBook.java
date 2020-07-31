@@ -2,6 +2,8 @@ public class PhoneBook {
 
     public static void main(String[] args) {
         //Добавить считывание ввода пользователя в цикле
+        System.out.println("тест");
+
     }
 
     public static boolean checkPhoneNumber(String phoneNumber) {
