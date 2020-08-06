@@ -2,8 +2,9 @@ import java.util.Scanner;
 
 public class ConsoleReader {
 
+    private static Scanner scanner = new Scanner(System.in);
+
     public static String yesNoReader() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Enter y/n: ");
         boolean correctChoice = false;
         String choice = scanner.nextLine();
@@ -23,7 +24,6 @@ public class ConsoleReader {
     }
 
     public static String nameReader() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Enter user`s name: ");
         String name = formatName(scanner.nextLine());
         while (name == null) {
@@ -43,7 +43,6 @@ public class ConsoleReader {
     }
 
     public static String numberReader() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Enter user`s number: ");
         String number = formatNumber(scanner.nextLine());
         while (number == null) {
