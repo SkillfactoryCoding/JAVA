@@ -10,30 +10,34 @@ public class PhoneBook {
     }
 
     public boolean isPhoneNumberInBook(String phoneNumber) {
+        boolean phoneNumberInList = false;
         for (PhoneBookNote book : this.phoneBookNotes) {
             if (book.isNumberInList(phoneNumber)) {
-                return true;
+                phoneNumberInList = true;
             }
         }
-        return false;
+        return phoneNumberInList;
     }
 
     private boolean isNameInBook(String name) {
+        boolean nameInPhoneBook = false;
         for (PhoneBookNote note : phoneBookNotes) {
             if (note.getUserName().equals(name)) {
-                return true;
+                nameInPhoneBook = true;
+                break;
             }
         }
-        return false;
+        return nameInPhoneBook;
     }
 
     private PhoneBookNote getPhoneBookNoteByName(String name) {
+        PhoneBookNote phoneBookNoteWithFindingName = null;
         for (PhoneBookNote phoneBookNote : this.phoneBookNotes) {
             if (phoneBookNote.getUserName().equals(name)) {
-                return phoneBookNote;
+                phoneBookNoteWithFindingName = phoneBookNote;
             }
         }
-        return null;
+        return phoneBookNoteWithFindingName;
     }
 
     public void addNumberByName(String name, String number) {
@@ -61,12 +65,13 @@ public class PhoneBook {
     }
 
     private PhoneBookNote getPhoneBookNoteByNumber(String number) {
+        PhoneBookNote phoneBookNoteWithFindingNumber = null;
         for (PhoneBookNote note : this.phoneBookNotes) {
             if (note.isNumberInList(number)) {
-                return note;
+                phoneBookNoteWithFindingNumber = note;
             }
         }
-        return null;
+        return phoneBookNoteWithFindingNumber;
     }
 
     public void add(String name, String number) {
@@ -82,7 +87,7 @@ public class PhoneBook {
     }
 
     public void printPhoneBookNotesSortedByName() {
-        Collections.sort(this.phoneBookNotes, new UserNameCompare());
+        this.phoneBookNotes.sort(new UserNameCompare());
         for (PhoneBookNote note : this.phoneBookNotes) {
             note.printNote();
         }
@@ -90,7 +95,9 @@ public class PhoneBook {
 
 
     public static void run(PhoneBook book) {
-        while (true) {
+        boolean isContinue = true;
+        String choiceToContinue;
+        do {
             System.out.println("Find note by name?");
             String choice = ConsoleReader.yesNoReader();
             if (choice.equals("y")) {
@@ -121,6 +128,12 @@ public class PhoneBook {
             book.printPhoneBookNotes();
             System.out.println("\nSorted list");
             book.printPhoneBookNotesSortedByName();
-        }
+            System.out.println("Do you want continue session?");
+            choiceToContinue = ConsoleReader.yesNoReader();
+            if (choiceToContinue.equals("n")) {
+                isContinue = false;
+            }
+        } while (isContinue);
+        System.out.println("Program was finished");
     }
 }

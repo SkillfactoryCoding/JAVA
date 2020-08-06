@@ -9,13 +9,15 @@ public class PhoneBookNote {
         this.usersPhoneNumbers = usersPhoneNumbers;
     }
 
-    public boolean isNumberInList(String number){
+    public boolean isNumberInList(String number) {
+        boolean phoneNumberInNote = false;
         for (String phoneNumber : this.usersPhoneNumbers) {
-            if (phoneNumber.equals(number)){
-                return true;
+            if (phoneNumber.equals(number)) {
+                phoneNumberInNote = true;
+                break;
             }
         }
-        return false;
+        return phoneNumberInNote;
     }
 
     public void addNumber(String number) {
