@@ -1,100 +1,140 @@
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 public class PhoneBook {
 
-    private ArrayList<PhoneBookNote> phoneBookNotes;
+    private HashMap<String, HashSet<String>> contacts;
 
     public PhoneBook() {
-        this.phoneBookNotes = new ArrayList<>();
+        this.contacts = new HashMap<>();
     }
 
-    public boolean isPhoneNumberInBook(String phoneNumber) {
-        boolean phoneNumberInList = false;
-        for (PhoneBookNote book : this.phoneBookNotes) {
-            if (book.isNumberInList(phoneNumber)) {
-                phoneNumberInList = true;
+    private boolean containsName(String name){
+        boolean nameInBook = false;
+        if (this.contacts.containsKey(name)){
+            nameInBook = true;
+        }
+        return nameInBook;
+    }
+
+    private boolean containsNumber(String number){
+        boolean numberInBook = false;
+        for (String name : this.contacts.keySet()) {
+            if (this.contacts.get(name).contains(number)){
+                numberInBook = true;
             }
         }
-        return phoneNumberInList;
+        return numberInBook;
     }
 
-    private boolean isNameInBook(String name) {
-        boolean nameInPhoneBook = false;
-        for (PhoneBookNote note : phoneBookNotes) {
-            if (note.getUserName().equals(name)) {
-                nameInPhoneBook = true;
-                break;
+    private HashSet<String> findContactByName(String name){
+        HashSet<String> numbers = null;
+        if (this.containsName(name)){
+            numbers = this.contacts.get(name);
+        }
+        return numbers;
+    }
+
+    private String findContactByNumber(String number) {
+        String findName = null;
+        for (String name : this.contacts.keySet()) {
+            if (this.contacts.get(name).contains(number)){
+                findName = name;
             }
         }
-        return nameInPhoneBook;
+        return findName;
     }
 
-    private PhoneBookNote getPhoneBookNoteByName(String name) {
-        PhoneBookNote phoneBookNoteWithFindingName = null;
-        for (PhoneBookNote phoneBookNote : this.phoneBookNotes) {
-            if (phoneBookNote.getUserName().equals(name)) {
-                phoneBookNoteWithFindingName = phoneBookNote;
-            }
+    private void printOneContact(String name, HashSet<String> numbers){
+        System.out.println(name + ":");
+        for (String number : numbers) {
+            System.out.println("\t" + number);
         }
-        return phoneBookNoteWithFindingName;
     }
 
-    public void addNumberByName(String name, String number) {
-        if (this.isNameInBook(name)) {
-            if (!this.getPhoneBookNoteByName(name).isNumberInList(number)) {
-                this.getPhoneBookNoteByName(name).addNumber(number);
+    private void add(String name, String number) {
+        if (this.containsName(name)){
+            HashSet<String> numbers = this.findContactByName(name);
+            numbers.add(number);
+        } else {
+            HashSet<String> numbers = new HashSet<>();
+            numbers.add(number);
+            this.contacts.put(name, numbers);
+        }
+    }
+
+    public static void run(PhoneBook book){
+        boolean isContinue = true;
+        String choiceToContinue;
+        do {
+            System.out.println("Find note by name?");
+            String choice = ConsoleReader.askYesNo();
+            if (choice.equals("y")) {
+                String name = ConsoleReader.askName();
+                HashSet<String> numbers = book.findContactByName(name);
+                if (numbers != null){
+                    book.printOneContact(name, numbers);
+                } else {
+                    System.out.println("Name not found.");
+                    String number = ConsoleReader.askNumber();
+                    if (book.containsNumber(number)){
+                        System.out.println("Number was found.");
+                        String foundName = book.findContactByNumber(number);
+                        book.printOneContact(foundName, book.findContactByName(foundName));
+                    } else {
+                      book.add(name, number);
+                    }
+                }
             } else {
-                System.out.println("Number in list.");
+                System.out.println("Finding note by number.");
+                String number = ConsoleReader.askNumber();
+                if (book.containsNumber(number)) {
+                    String name = book.findContactByNumber(number);
+                    HashSet<String> numbers = new HashSet<>();
+                    numbers.add(number);
+                    book.printOneContact(name, numbers);
+                } else {
+                    System.out.println("Number not found. Adding by number.");
+                    String name = ConsoleReader.askName();
+                    book.add(name, number);
+                }
             }
-        } else {
-            System.out.println("User`s name not found.");
-        }
-    }
 
-    public void addUserByNumber(String number) {
-        String name = ConsoleReader.nameReader();
-        if (!this.isNameInBook(name)) {
-            PhoneBookNote phoneBookNote = new PhoneBookNote(name, new ArrayList<>());
-            phoneBookNote.addNumber(number);
-            this.phoneBookNotes.add(phoneBookNote);
-        } else {
-            System.out.println("Such name is already exist. Number add to this name.");
-            this.addNumberByName(name, number);
-        }
-    }
-
-    private PhoneBookNote getPhoneBookNoteByNumber(String number) {
-        PhoneBookNote phoneBookNoteWithFindingNumber = null;
-        for (PhoneBookNote note : this.phoneBookNotes) {
-            if (note.isNumberInList(number)) {
-                phoneBookNoteWithFindingNumber = note;
+            System.out.println("unsorted list");
+            book.printContacts();
+            System.out.println("\nSorted list");
+            book.printAllBookSortedByName();
+            
+            System.out.println("Do you want continue session?");
+            choiceToContinue = ConsoleReader.askYesNo();
+            if (choiceToContinue.equals("n")) {
+                isContinue = false;
             }
-        }
-        return phoneBookNoteWithFindingNumber;
+        } while (isContinue);
+        System.out.println("Program was finished");
     }
 
-    public void add(String name, String number) {
-        PhoneBookNote phoneBookNote = new PhoneBookNote(name, new ArrayList<>());
-        phoneBookNote.addNumber(number);
-        phoneBookNotes.add(phoneBookNote);
-    }
-
-    public void printPhoneBookNotes() {
-        for (PhoneBookNote note : this.phoneBookNotes) {
-            note.printNote();
+    private void printAllBookSortedByName() {
+        List<String> nameListForSort = new ArrayList<>(this.contacts.keySet());
+        Collections.sort(nameListForSort);
+        for (String name : nameListForSort) {
+            this.printOneContact(name, this.contacts.get(name));
         }
     }
 
-    public void printPhoneBookNotesSortedByName() {
-        this.phoneBookNotes.sort(new UserNameCompare());
-        for (PhoneBookNote note : this.phoneBookNotes) {
-            note.printNote();
+    private void printContacts() {
+        for (String name : this.contacts.keySet()) {
+            this.printOneContact(name, this.contacts.get(name));
         }
     }
 
 
-    public static void run(PhoneBook book) {
+
+
+
+
+
+
+    /*public static void run(PhoneBook book) {
         boolean isContinue = true;
         String choiceToContinue;
         do {
@@ -103,7 +143,7 @@ public class PhoneBook {
             if (choice.equals("y")) {
                 String name = ConsoleReader.nameReader();
                 if (book.isNameInBook(name)) {
-                    book.getPhoneBookNoteByName(name).printNote();
+                    book.printNote(name);
                 } else {
                     System.out.println("Name not found.");
                     String number = ConsoleReader.numberReader();
@@ -135,5 +175,5 @@ public class PhoneBook {
             }
         } while (isContinue);
         System.out.println("Program was finished");
-    }
+    }*/
 }

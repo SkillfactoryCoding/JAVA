@@ -4,22 +4,22 @@ public class ConsoleReader {
 
     private static Scanner scanner = new Scanner(System.in);
 
-    public static String yesNoReader() {
+    public static String askYesNo() {
         System.out.println("Enter y/n: ");
-        boolean correctChoice = false;
+        boolean isCorrected = false;
         String choice;
         do {
             choice = scanner.nextLine();
             if (choice.equals("y") || choice.equals("n")) {
-                correctChoice = true;
+                isCorrected = true;
             } else {
                 System.out.println("Error: incorrect character. Try again.");
             }
-        } while (!correctChoice);
+        } while (!isCorrected);
         return choice;
     }
 
-    public static String nameReader() {
+    public static String askName() {
         System.out.println("Enter user`s name: ");
         StringBuilder name = new StringBuilder();
         do {
@@ -42,7 +42,7 @@ public class ConsoleReader {
         return name;
     }
 
-    public static String numberReader() {
+    public static String askNumber() {
         System.out.println("Enter user`s number: ");
         StringBuilder number = new StringBuilder();
         do {
