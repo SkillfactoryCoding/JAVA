@@ -67,12 +67,18 @@ public class PhoneBook {
 
         }
 
-        public static String formatName (String name){
-            return "";
+        public static String formatName(String name) {
+            String[] format = name.split(" ");
+            return (format[0].substring(0, 1).toUpperCase() + format[0].substring(1) + " " + format[1].substring(0, 1).toUpperCase()
+                    + format[1].substring(1) + " " + format[2].substring(0, 1).toUpperCase() + format[2].substring(1));
+
+
         }
 
-        public static String formatPhoneNumber (String number){
-            return "";
+        public static String formatPhoneNumber(String number) {
+            String format = number.replaceAll("[^0-9]", "");
+
+            return ("+7" + " " + format.substring(1, 4) + " " + format.substring(4, 7) + " " + format.substring(7, 9) + " " + format.substring(9));
         }
 
         public static void add (String[][]book, String name, String number){
