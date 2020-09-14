@@ -13,7 +13,7 @@ public class PhoneBook {
             Scanner scanner = new Scanner(System.in);
             boolean isCorrectName = false;
             while (!isCorrectName) {
-                name = scanner.nextLine(); //Считывает строку из System.in
+                name = scanner.nextLine();          //Считывает строку из System.in
                 isCorrectName = checkName(name);
                 if (!isCorrectName) {
                     System.out.println("Введите корректное ФИО!");
@@ -22,7 +22,7 @@ public class PhoneBook {
                 }
             }
 
-            for (int r = 0; r < book.length; r++) {
+            for (int r = 0; r < book.length; r++) {         // осуществляем проверку на повторяющиеся имена
                 if (name.equals(book[r][0])) {
                     System.out.println(book[r][0] + ":" + " " + book[r][1]);
                     mark = false;
@@ -38,7 +38,7 @@ public class PhoneBook {
         }
     }
 
-    public static String printPhoneNumber(String number) {
+    public static String printPhoneNumber(String number) {   // метод  с вводом номера
         System.out.println("Введите номер");
         Scanner scanner = new Scanner(System.in);
         boolean isCorrectNumber = false;
@@ -55,19 +55,19 @@ public class PhoneBook {
     }
 
 
-    public static boolean checkPhoneNumber(String number) {
+    public static boolean checkPhoneNumber(String number) {  // проверяем номер на корректность
         String a = number.replaceAll("[^0-9]", "");
         return a.length() == 11;
 
     }
 
-    public static boolean checkName(String name) {
+    public static boolean checkName(String name) {   // проверяем имя на корректность
         String[] a = name.split(" ");
         return a.length == 3;
 
     }
 
-    public static String formatName(String name) {
+    public static String formatName(String name) {   // приводим имя к должному виду
         String[] str = name.split(" ");
         return (str[0].substring(0, 1).toUpperCase() + str[0].substring(1) + " " + str[1].substring(0, 1).toUpperCase()
                 + str[1].substring(1) + " " + str[2].substring(0, 1).toUpperCase() + str[2].substring(1));
@@ -75,13 +75,13 @@ public class PhoneBook {
 
     }
 
-    public static String formatPhoneNumber(String number) {
+    public static String formatPhoneNumber(String number) {    // приводим номер к должному виду
         String a = number.replaceAll("[^0-9]", "");
 
         return ("+7" + " " + a.substring(1, 4) + " " + a.substring(4, 7) + " " + a.substring(7, 9) + " " + a.substring(9));
     }
 
-    public static String[][] add(String[][] book, String name, String number, int i) {
+    public static String[][] add(String[][] book, String name, String number, int i) {    // сама телефонная книга, точнее ее заготовка
         book[i][0] = name;
         book[i][1] = number;
         list(book);
