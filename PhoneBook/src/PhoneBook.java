@@ -55,12 +55,16 @@ public class PhoneBook {
             return number;
         }
 
-        public static boolean checkPhoneNumber (String phoneNumber){
-            return true;
+        public static boolean checkPhoneNumber (String number){
+            String check = number.replaceAll("[^0-9]", "");
+            return check.length() == 11;
+
         }
 
-        public static boolean checkName (String name){
-            return true;
+        public static boolean checkName(String name) {
+            String[] check = name.split(" ");
+            return check.length == 3;
+
         }
 
         public static String formatName (String name){
