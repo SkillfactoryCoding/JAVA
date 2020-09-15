@@ -10,7 +10,7 @@ public class Main {
 
         Student[] students = new Student[4];
 
-        students[0] = new Student("Antonio",89, firstMentor);
+        students[0] = new Student("Antonio", 89, firstMentor);
         students[1] = new Student("Andrey", 35, secondMentor);
         students[2] = new Student("Eugene", 30, secondMentor);
         students[3] = new Student("Viktor", 30, firstMentor);
@@ -28,7 +28,7 @@ public class Main {
 
     private static boolean doesNotEachStudentSolveAllTasks(Student[] students) {
         boolean done = true;
-        for(Student student : students){
+        for (Student student : students) {
             boolean d = student.isAreAllTasksDone();
             done &= d;
         }

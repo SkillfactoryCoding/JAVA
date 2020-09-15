@@ -19,7 +19,7 @@ public class Mentor extends Person implements Staff {
         int number = Main.randomInt(0, 2000);
         if (number > 1000) {
             mood = true;
-            System.out.println("[" + task.getTask() + "] was checked by [" + getName() + "]") ;
+            System.out.println("[" + task.getTask() + "] was checked by [" + getName() + "]");
             return true;
         }
         mood = false;

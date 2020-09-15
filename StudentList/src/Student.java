@@ -36,7 +36,7 @@ public class Student extends Person {
         // solvedTasks = 2
         // tasksToSolve = 2
         // [0] [1] [2] [3] [4] [5]
-        System.out.println("[" + getName() + "] already solved ["+solvedTasks+"] and ["+ tasksToSolve+"] new tasks to solve");
+        System.out.println("[" + getName() + "] already solved [" + solvedTasks + "] and [" + tasksToSolve + "] new tasks to solve");
         for (int i = solvedTasks; i < solvedTasks + tasksToSolve; i++) {
 
             solveTask(tasks[i]);
