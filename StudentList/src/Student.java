@@ -1,41 +1,64 @@
-import java.util.UUID;
+public class Student extends Person {
 
-public class Student {
+    public static int tasksSum;
 
-    /**
-     * id студента
-     */
-    private String id;
+    public int solvedTasks;
+    public Mentor mentor;
+    public boolean allTasksSolved = false;
 
-    /**
-     * Имя студента
-     */
-    private String name;
-
-    /**
-     * Телефон студента
-     */
-    private String phone;
-
-    /**
-     * Почта студента
-     */
-    private String eMail;
-
-    public Student(String name, String phone, String eMail) {
-        this.id = UUID.randomUUID().toString();
-        this.name = name;
-        this.phone = phone;
-        this.eMail = eMail;
+    public Student(String name, int age, Mentor mentor) {
+        super(name, age);
+        this.mentor = mentor;
+        this.solvedTasks = 0;
     }
 
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                ", eMail='" + eMail + '\'' +
-                '}';
+    public int getSolvedTasks() {
+        return solvedTasks;
+    }
+
+    public void setSolvedTasks(int solvedTasks) {
+        this.solvedTasks = solvedTasks;
+    }
+
+    public Mentor getMentor() {
+        return mentor;
+    }
+
+    public void setMentor(Mentor mentor) {
+        this.mentor = mentor;
+    }
+
+    public boolean isAreAllTasksDone() {
+        return allTasksSolved;
+    }
+
+    public void solveTasks(Task[] tasks, int tasksToSolve) {
+        // solvedTasks = 2
+        // tasksToSolve = 2
+        // [0] [1] [2] [3] [4] [5]
+        System.out.println("[" + getName() + "] already solved [" + solvedTasks + "] and [" + tasksToSolve + "] new tasks to solve");
+        for (int i = solvedTasks; i < solvedTasks + tasksToSolve; i++) {
+
+            solveTask(tasks[i]);
+            if (solvedTasks >= tasks.length) {
+                allTasksSolved = true;
+                System.out.println("[" + getName() + "] solved all tasks!");
+                return;
+            } else {
+                allTasksSolved = false;
+            }
+        }
+
+    }
+
+    private void solveTask(Task task) {
+        if (task instanceof AutoChecked) {
+            ((AutoChecked) task).checkAutomatically();
+        } else {
+            while (!mentor.checkCode(task)) {
+            }
+        }
+        solvedTasks++;
+        tasksSum++;
     }
 }
